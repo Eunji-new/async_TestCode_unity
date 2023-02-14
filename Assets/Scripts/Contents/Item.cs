@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 
@@ -16,14 +17,14 @@ public class Item : ScriptableObject
     public GameObject character;
     public string lat;
     public string lon;
-    public category _Category;
+    public category _category;
 
     public Item(string lat, string lon, category category, GameObject character)
     {
         this.lat = lat;
         this.lon = lon;
-        this._Category = category;
+        this._category = category;
         this.character = character;
     }
-
+    
 }

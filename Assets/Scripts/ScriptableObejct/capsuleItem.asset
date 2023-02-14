@@ -15,4 +15,4 @@ MonoBehaviour:
   character: {fileID: 8348095691241440218, guid: cdffc3a98e669e1468659e75d780e109, type: 3}
   lat: -4.5
   lon: 5
-  _Category: 3
+  _category: 3
