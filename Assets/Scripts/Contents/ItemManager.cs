@@ -59,6 +59,11 @@ public class ItemManager : MonoBehaviour
         currentItems.Add(item);
     }
 
+    /*
+    코루틴을 이용한 비동기 프로그래밍
+    각 아이템에 맞는 오브젝트 애니메이션 함수를 실행한다.
+    함수가 끝나는 것을 기다리지않고, 다른 함수들도 같이 실행된다.
+    */
     public void MovingItems_Coroutine()
     {
         foreach (var item in currentItems)
@@ -67,6 +72,10 @@ public class ItemManager : MonoBehaviour
         }
     }
 
+    /*
+    각 아이템에 맞는 오브젝트 애니메이션 함수를 실행하고
+    실행한 함수가 끝날때까지 기다린다.
+    */
     public async Task MovingItems_Async_v1()
     {
         foreach (var item in currentItems)
@@ -84,6 +93,11 @@ public class ItemManager : MonoBehaviour
         }
     }
 
+    /*
+    각 아이템에 맞는 오브젝트 애니메이션 함수를 실행하고
+    실행한 함수가 종료될 때, 해당 함수가 끝났다는 로그를 띄운다.
+    함수가 끝나는 것을 기다리지않고, 다른 함수들도 같이 실행된다.
+    */
     public async Task MovingItems_Async_v2()
     {
         var t0 = MoveCube();
@@ -120,6 +134,8 @@ public class ItemManager : MonoBehaviour
 
     public IEnumerator PlayAnim_Coroutine(GameObject obj)
     {
+        
+        Debug.Log($"{obj.name} 코루틴 시작");
         GetItemAnim(obj).Play();
 
         int seconds = 0;
@@ -131,7 +147,7 @@ public class ItemManager : MonoBehaviour
             seconds = 3;
         else
             seconds = 4;
-
+        Debug.Log($"{obj.name} 코루틴 기다리기 전");
         yield return new WaitForSeconds(seconds);
 
         if (obj.name.Contains("Cube"))
