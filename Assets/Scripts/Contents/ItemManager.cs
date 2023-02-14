@@ -61,24 +61,26 @@ public class ItemManager : MonoBehaviour
 
     public void MovingItems_Coroutine()
     {
-        foreach(var item in currentItems)
+        foreach (var item in currentItems)
         {
             StartCoroutine(PlayAnim_Coroutine(item));
         }
     }
-  
+
     public async Task MovingItems_Async_v1()
-    {   
-        foreach(var item in currentItems)
+    {
+        foreach (var item in currentItems)
         {
-            if(item.name.Contains("Cube"))
+            if (item.name.Contains("Cube"))
                 await MoveCube();
-            else if(item.name.Contains("Sphere"))
+            else if (item.name.Contains("Sphere"))
                 await MoveSphere();
-            else if(item.name.Contains("Cylinder"))
+            else if (item.name.Contains("Cylinder"))
                 await MoveCylinder();
             else
                 await MoveCapsule();
+
+            Debug.Log($"{item.name} 애니메이션 끝남 ");
         }
     }
 
@@ -89,37 +91,54 @@ public class ItemManager : MonoBehaviour
         var t2 = MoveCylinder();
         var t3 = MoveCapsule();
 
-        List<Task> taskList = new List<Task>{t0, t1, t2, t3};
+        List<Task> taskList = new List<Task> { t0, t1, t2, t3 };
 
-        while(taskList.Count > 0)
+        while (taskList.Count > 0)
         {
             Task finishedTask = await Task.WhenAny(taskList);
-            
+
+            if (finishedTask == t0)
+            {
+                Debug.Log("cube 애니메이션 끝남");
+            }
+            else if (finishedTask == t1)
+            {
+                Debug.Log("Sphere 애니메이션 끝남");
+            }
+            else if (finishedTask == t2)
+            {
+                Debug.Log("Cylinder 애니메이션 끝남");
+            }
+            else if (finishedTask == t3)
+            {
+                Debug.Log("Capsule 애니메이션 끝남");
+            }
+
             taskList.Remove(finishedTask);
         }
     }
-  
+
     public IEnumerator PlayAnim_Coroutine(GameObject obj)
     {
         GetItemAnim(obj).Play();
 
         int seconds = 0;
-        if(obj.name.Contains("Cube"))
+        if (obj.name.Contains("Cube"))
             seconds = 1;
-        else if(obj.name.Contains("Sphere"))
+        else if (obj.name.Contains("Sphere"))
             seconds = 2;
-        else if(obj.name.Contains("Cylinder"))
+        else if (obj.name.Contains("Cylinder"))
             seconds = 3;
         else
             seconds = 4;
 
         yield return new WaitForSeconds(seconds);
 
-        if(obj.name.Contains("Cube"))
+        if (obj.name.Contains("Cube"))
             Debug.Log("cube 애니메이션 끝남");
-        else if(obj.name.Contains("Sphere"))
+        else if (obj.name.Contains("Sphere"))
             Debug.Log("sphere 애니메이션 끝남");
-        else if(obj.name.Contains("Cylinder"))
+        else if (obj.name.Contains("Cylinder"))
             Debug.Log("cylinder 애니메이션 끝남");
         else
             Debug.Log("capsule 애니메이션 끝남");
@@ -131,42 +150,38 @@ public class ItemManager : MonoBehaviour
         return obj.GetComponent<Animation>();
     }
 
-#region Move Animation
+    #region Move Animation
     public async Task MoveCube()
     {
-        if(!currentItems[0]) return;
+        if (!currentItems[0]) return;
 
         GetItemAnim(currentItems[0]).Play();
         await Task.Delay(1000);
-        Debug.Log("cube 애니메이션 끝남");
     }
 
     public async Task MoveSphere()
     {
-        if(!currentItems[1]) return;
+        if (!currentItems[1]) return;
 
         GetItemAnim(currentItems[1]).Play();
         await Task.Delay(2000);
-        Debug.Log("Sphere 애니메이션 끝남");
     }
 
     public async Task MoveCylinder()
     {
-        if(!currentItems[2]) return;
+        if (!currentItems[2]) return;
 
         GetItemAnim(currentItems[2]).Play();
         await Task.Delay(3000);
-        Debug.Log("Cylinder 애니메이션 끝남");
     }
 
     public async Task MoveCapsule()
     {
-        if(!currentItems[3]) return;
+        if (!currentItems[3]) return;
 
         GetItemAnim(currentItems[3]).Play();
         await Task.Delay(4000);
-        Debug.Log("Capsule 애니메이션 끝남");
     }
-#endregion
+    #endregion
 
 }
