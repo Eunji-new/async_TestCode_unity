@@ -14,16 +14,27 @@ public class Item : ScriptableObject
         cylinder,
         capsule
     }
+
+    public enum frame
+    {
+        card,
+        cut,
+        noCut,
+        blueNeon
+    }
+
     public GameObject character;
     public string lat;
     public string lon;
     public category _category;
+    public frame _frame;
 
-    public Item(string lat, string lon, category category, GameObject character)
+    public Item(string lat, string lon, category category, frame frame, GameObject character)
     {
         this.lat = lat;
         this.lon = lon;
         this._category = category;
+        this._frame = frame;
         this.character = character;
     }
     

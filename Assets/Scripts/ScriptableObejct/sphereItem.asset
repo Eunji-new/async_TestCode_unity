@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: sphereItem
   m_EditorClassIdentifier: 
   character: {fileID: 8541149771724334524, guid: e11bf8022e1d837499ecc8e27c9cb031, type: 3}
-  lat: 4.5
+  lat: -2
   lon: 5
   _category: 1
+  _frame: 0

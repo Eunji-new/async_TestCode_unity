@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: cubeItem
   m_EditorClassIdentifier: 
   character: {fileID: 353852817717869794, guid: 22b275b526f573042a3690f03ab9c47d, type: 3}
-  lat: -1.5
+  lat: -6
   lon: 5
-  _Category: 0
+  _category: 0
+  _frame: 0

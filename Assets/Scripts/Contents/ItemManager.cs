@@ -2,10 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ItemManager : MonoBehaviour
 {
     public Item[] Item_Data;
+    public GameObject[] frames;
     List<GameObject> currentItems;
 
     private void Awake()
@@ -16,7 +18,7 @@ public class ItemManager : MonoBehaviour
     private void Start()
     {
         foreach (var item in Item_Data)
-            CreateItem(item._category);
+            CreateItem(item._category, item._frame);
     }
 
     private async void Update()
@@ -38,9 +40,9 @@ public class ItemManager : MonoBehaviour
         }
     }
 
-    public void CreateItem(Item.category category)
+    public void CreateItem(Item.category category, Item.frame frame)
     {
-        InstantiateItem(category);
+        InstantiateItem(category, frame, GetItem(category).lat, GetItem(category).lon);
     }
 
     public Item GetItem(Item.category category)
@@ -48,14 +50,29 @@ public class ItemManager : MonoBehaviour
         return Item_Data[(int)category];
     }
 
-    public void InstantiateItem(Item.category category)
+    public GameObject GetFrameObj(Item.frame frame)
     {
-        float lat = float.Parse(GetItem(category).lat);
-        float lon = float.Parse(GetItem(category).lon);
+        if(frame == Item.frame.card)
+            return frames[0];
+        else
+            return frames[1];
+    }
 
-        Vector3 createPos = new Vector3(lat, 0.0f, lon);
+    public void SetText(Item.category category, GameObject frame)
+    {
+        frame.transform.GetChild(0).GetComponent<TextMesh>().text = category.ToString();
+    }
+
+    public void InstantiateItem(Item.category category, Item.frame frame, string lat, string lon)
+    {
+        float _lat = float.Parse(lat);
+        float _lon = float.Parse(lon);
+
+        Vector3 createPos = new Vector3(_lat, 0.0f, _lon);
 
         GameObject item = Instantiate(GetItem(category).character, createPos, Quaternion.identity) as GameObject;
+        GameObject frameObj = Instantiate(GetFrameObj(frame), createPos + (Vector3.up * 2), Quaternion.identity) as GameObject;
+        SetText(category, frameObj);
         currentItems.Add(item);
     }
 
@@ -69,6 +86,7 @@ public class ItemManager : MonoBehaviour
         foreach (var item in currentItems)
         {
             StartCoroutine(PlayAnim_Coroutine(item));
+            Debug.Log($"코루틴");
         }
     }
 
@@ -101,9 +119,13 @@ public class ItemManager : MonoBehaviour
     public async Task MovingItems_Async_v2()
     {
         var t0 = MoveCube();
+        Debug.Log($"MoveCube");
         var t1 = MoveSphere();
+        Debug.Log($"MoveSphere");
         var t2 = MoveCylinder();
+        Debug.Log($"MoveCylinder");
         var t3 = MoveCapsule();
+        Debug.Log($"MoveCapsule");
 
         List<Task> taskList = new List<Task> { t0, t1, t2, t3 };
 
@@ -169,33 +191,42 @@ public class ItemManager : MonoBehaviour
     #region Move Animation
     public async Task MoveCube()
     {
+        Debug.Log($"MoveCube 시작");
         if (!currentItems[0]) return;
 
         GetItemAnim(currentItems[0]).Play();
+
+        Debug.Log($"MoveCube 대기 전");
         await Task.Delay(1000);
     }
 
     public async Task MoveSphere()
     {
+        Debug.Log($"MoveSphere 시작");
         if (!currentItems[1]) return;
 
         GetItemAnim(currentItems[1]).Play();
+        Debug.Log($"MoveSphere 대기 전");
         await Task.Delay(2000);
     }
 
     public async Task MoveCylinder()
     {
+        Debug.Log($"MoveCylinder 시작");
         if (!currentItems[2]) return;
 
         GetItemAnim(currentItems[2]).Play();
+        Debug.Log($"MoveCylinder 대기 전");
         await Task.Delay(3000);
     }
 
     public async Task MoveCapsule()
     {
+        Debug.Log($"MoveCapsule 시작");
         if (!currentItems[3]) return;
 
         GetItemAnim(currentItems[3]).Play();
+        Debug.Log($"MoveCapsule 대기 전");
         await Task.Delay(4000);
     }
     #endregion
