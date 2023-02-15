@@ -73,6 +73,7 @@ public class ItemManager : MonoBehaviour
         GameObject item = Instantiate(GetItem(category).character, createPos, Quaternion.identity) as GameObject;
         GameObject frameObj = Instantiate(GetFrameObj(frame), createPos + (Vector3.up * 2), Quaternion.identity) as GameObject;
         SetText(category, frameObj);
+        frameObj.transform.SetParent(item.transform.GetChild(0));
         currentItems.Add(item);
     }
 
