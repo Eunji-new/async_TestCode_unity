@@ -1,4 +1,7 @@
 # async_TestCode_unity
+
+- 보다 자세한 설명 : https://eunujini.tistory.com/19
+
 Unity에서 async-await를 이용한 비동기 프로그래밍 예제
 
 1. 정해진 위치에 아이템이 생성됩니다.
